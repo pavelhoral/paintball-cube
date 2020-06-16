@@ -1,7 +1,7 @@
 #ifndef MELODYNOTES_H
 #define MELODYNOTES_H
 
-#define NOTE_NN 0
+#define NOTE_00  0
 
 #define NOTE_B0  31
 #define NOTE_C1  33
