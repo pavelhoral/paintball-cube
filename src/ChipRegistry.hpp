@@ -39,10 +39,29 @@ public:
     int indexOf(byte* uid);
 
 private:
+    /**
+     * Current number of registered chips. 
+     */
     uint8_t count_ = 0;
+
+    /**
+     * Chip registry capacity.
+     */
     uint8_t maxCount_;
+
+    /**
+     * Registered data byte width.
+     */
     uint8_t dataWidth_;
+
+    /**
+     * Array of registered chip UIDs.
+     */
     byte* uidArray_;
+
+    /**
+     * Array of assigned chip data.
+     */
     byte* dataArray_;
 };
 

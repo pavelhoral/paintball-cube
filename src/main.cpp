@@ -33,14 +33,60 @@ int WinnerPosition = 0;
 
 TM1637Display display(PIN_CLK, PIN_DIO);  //set up the 4-Digit Display.
 
+#define BUZZER_PIN 8
 
-
-
+#define PIR_PIN 2
 
 #define RST_PIN         9          // Configurable, see typical pin layout above
 #define SS_PIN          10         // Configurable, see typical pin layout above
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
+
+bool detected = false;
+
+#include "Sound.h"
+
+int notes[] = {
+  NOTE_C3, NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3
+};
+
+int song[] = {
+  NOTE_C3, NOTE_2,
+  NOTE_E3, NOTE_2,
+  NOTE_G3, NOTE_2,
+  NOTE_NN, NOTE_2,
+  NOTE_C3, NOTE_2,
+  NOTE_E3, NOTE_2,
+  NOTE_G3, NOTE_2,
+  NOTE_NN, NOTE_2,
+};
+bool songPlay = false; 
+unsigned long songStart = 0;
+int songPos = 0;
+int songLength = 8;
+
+
+boolean play() {
+  if (songPos == songLength) {
+    noTone(BUZZER_PIN);
+    songPos = 0;
+    return false;
+  }
+  if (songStart == 0) {
+    songStart = millis();
+  }
+
+  for (int i = 0; i < count; i++) {
+    int note = song[i * 2];
+    int duration = song[i * 2 + 1];
+    if (note == NOTE_NN) {
+      tone(BUZZER_PIN, NOTE_C1, duration);
+    } else {
+      tone(BUZZER_PIN, note, duration);
+    }
+  }
+  noTone(BUZZER_PIN);
+}
 
 void setup() {
   Serial.begin(9600);
@@ -51,10 +97,15 @@ void setup() {
 
   // Set display brightness
   display.setBrightness(BRIGHTNESS, true);
+  display.clear();
 
-  display.showNumberDec(0);
+  pinMode(BUZZER_PIN, OUTPUT);
+  digitalWrite(BUZZER_PIN, LOW);
+  delay(50);
+  digitalWrite(BUZZER_PIN, HIGH);
+
+  pinMode(PIR_PIN, INPUT);
 }
-
 
 ChipRegistry registry(10);
 
@@ -71,7 +122,25 @@ void loop() {
     void* uid = mfrc522.uid.uidByte;
     Serial.print(*((int32_t *) uid), HEX);
     Serial.print("]: ");
-    Serial.println(registry.indexOf(mfrc522.uid.uidByte));
+    int cardId = registry.indexOf(mfrc522.uid.uidByte);
+    Serial.println(cardId);
+    display.showNumberDec(cardId);
+
+    if (cardId == 0) {
+      play(song, 8);
+    } else {
+      tone(BUZZER_PIN, notes[cardId % 5], 50);
+    }
+    delay(50);
+    digitalWrite(BUZZER_PIN, HIGH);
 	}
-  display.showNumberDec(millis() / 1000L);
+  if (digitalRead(PIR_PIN) == HIGH) {
+    uint8_t fullhouse[4] = { 0xFF, 0xFF, 0xFF, 0xFF };
+    display.setSegments(fullhouse);
+    tone(BUZZER_PIN, NOTE_C1, 1);
+    delay(1);
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(250);
+    display.clear();
+  }
 }
