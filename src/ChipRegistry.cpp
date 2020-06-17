@@ -10,7 +10,7 @@ ChipRegistry::ChipRegistry(uint8_t maxCount, uint8_t dataWidth)
 {
     uidArray_ = (uint8_t*) malloc(maxCount_ * UID_WIDTH);
     dataArray_ = (uint8_t*) malloc(maxCount_ * dataWidth_);
-};
+}
 
 void ChipRegistry::clear() {
     count_ = 0;

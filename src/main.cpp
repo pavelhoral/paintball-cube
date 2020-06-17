@@ -5,6 +5,9 @@
 
 #include "ChipRegistry.hpp"
 
+#include "MelodyNotes.h"
+#include "MelodyPlayer.hpp"
+
 #include <SoftwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
 
@@ -36,7 +39,7 @@ int WinnerPosition = 0;
 
 TM1637Display display(PIN_CLK, PIN_DIO);  //set up the 4-Digit Display.
 
-#define BUZZER_PIN 8
+#define BUZZER_PIN 3
 
 #define PIR_PIN 2
 
@@ -47,14 +50,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 bool detected = false;
 
-#include "MelodyNotes.h"
-
-int notes[] = {
-  NOTE_C3, NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3
-};
-
-const int tempo = 120;
-
+const int tempo = 1000;
 int song[] = {
   NOTE_C3, NOTE_2(tempo),
   NOTE_E3, NOTE_2(tempo),
@@ -64,33 +60,27 @@ int song[] = {
   NOTE_E3, NOTE_2(tempo),
   NOTE_G3, NOTE_2(tempo),
   NOTE_00, NOTE_2(tempo),
+
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_D3, NOTE_4(tempo),
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_F3, NOTE_2(tempo),
+  NOTE_D3, NOTE_2(tempo),
+
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_D3, NOTE_4(tempo),
+  NOTE_E3, NOTE_4(tempo),
+  NOTE_F3, NOTE_2(tempo),
+  NOTE_D3, NOTE_2(tempo),
+
+  NOTE_E3, NOTE_2(tempo),
+  NOTE_D3, NOTE_2(tempo),
+  NOTE_C3, NOTE_2(tempo)
 };
-bool songPlay = false;
-unsigned long songStart = 0;
-int songPos = 0;
-int songLength = 8;
 
-// boolean play() {
-//   if (songPos == songLength) {
-//     noTone(BUZZER_PIN);
-//     songPos = 0;
-//     return false;
-//   }
-//   if (songStart == 0) {
-//     songStart = millis();
-//   }
-
-//   for (int i = 0; i < count; i++) {
-//     int note = song[i * 2];
-//     int duration = song[i * 2 + 1];
-//     if (note == NOTE_00) {
-//       tone(BUZZER_PIN, NOTE_C1, duration);
-//     } else {
-//       tone(BUZZER_PIN, note, duration);
-//     }
-//   }
-//   noTone(BUZZER_PIN);
-// }
+MelodyPlayer melody(BUZZER_PIN);
 
 uint8_t buttonPins[] = {A0, A1, A2};
 bool buttonState[] = {false, false, false};
@@ -104,7 +94,6 @@ SoftwareSerial swSerial(10, 11);
 
 void setup() {
   Serial.begin(9600);
-
   /*
   SPI.begin();
   mfrc522.PCD_Init();
@@ -127,6 +116,7 @@ void setup() {
   }
 
 
+  /*
   swSerial.begin(9600);
   if (!myDFPlayer.begin(swSerial)) {  //Use softwareSerial to communicate with mp3.
     Serial.println(F("Unable to begin:"));
@@ -137,6 +127,7 @@ void setup() {
     }
   }
   Serial.println(F("DFPlayer Mini online."));
+  /**/
 }
 
 ChipRegistry registry(10);
@@ -177,6 +168,8 @@ void loop() {
     display.clear();
   }
   */
+  unsigned long time = millis();
+  melody.update(time);
   for (int i = 0; i < 3; i++) {
     bool pushed = digitalRead(buttonPins[i]) == LOW;
     bool state = buttonState[i];
@@ -187,9 +180,12 @@ void loop() {
         if (pushed) {
           Serial.print("Pressed ");
           Serial.println(i);
-
+          melody.load(song, sizeof(song) / sizeof(int) / 2);
+          melody.play();
+          /*
           myDFPlayer.volume(30);  //Set volume value. From 0 to 30
           myDFPlayer.play(i + 1);  //Play the first mp3
+          /**/
         }
       }
     } else if (buttonDebounce[i] != 0) {
@@ -197,10 +193,11 @@ void loop() {
     }
   }
 
-
+  /*
   if (myDFPlayer.available()) {
     printDetail(myDFPlayer.readType(), myDFPlayer.read()); //Print the detail message from DFPlayer to handle different errors and states.
   }
+  /**/
 }
 
 void printDetail(uint8_t type, int value){

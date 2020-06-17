@@ -11,9 +11,14 @@ public:
     MelodyPlayer(uint8_t outputPin);
 
     /**
-     * Start playing the given song.
+     * Load the given song.
      */
-    void play(int* song, int length);
+    void load(int* song, int length);
+
+    /**
+     * Start playback of the loaded song.
+     */
+    void play();
 
     /**
      * Stop the current playback. 
@@ -44,7 +49,7 @@ private:
     /**
      * Current song length 
      */
-    int songLength_;
+    int songLength_ = 0;
 
     /**
      * Current song position.
@@ -54,7 +59,7 @@ private:
     /**
      * Time of next scheduled note change.
      */
-    unsigned long songAdvance_;
+    unsigned long nextUpdate_;
 };
 
 #endif
