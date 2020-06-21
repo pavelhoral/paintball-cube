@@ -2,7 +2,7 @@
 #define COUNTDOWN_H
 
 #include "GameModule.hpp";
-#include "TM1637Display.h";
+#include <TM1637Display.h>;
 
 /**
  * Countdown clock module.
