@@ -8,25 +8,27 @@ const uint8_t JACK_COUNT = 3;
 
 const uint8_t METER_PIN = A5;
 
+const uint8_t SWITCH_PIN = PIN2;
+
 class ManualInput_ {
 public:
-  ManualInput_() {
-    pinMode(JACK_PINS[0], INPUT_PULLUP);
-    pinMode(JACK_PINS[1], INPUT_PULLUP);
-    pinMode(JACK_PINS[2], INPUT_PULLUP);
-  }
+  ManualInput_();
 
-  void readJacks(uint8_t* output) {
-    output[0] = digitalRead(JACK_PINS[0]);
-    output[1] = digitalRead(JACK_PINS[1]);
-    output[2] = digitalRead(JACK_PINS[2]);
-  }
+  /**
+   * Read jack input state (each value is read as a corresponding bit flag).
+   */
+  uint8_t readJacks();
 
-  int readMeter() {
-    return analogRead(METER_PIN);
-  }
+  /**
+   * Read potentiometer value in the range [0-10].
+   */
+  uint8_t readMeter();
+
+  /**
+   * Read switch value.
+   */
+  boolean readSwitch();
+
 };
-
-ManualInput_ ManualInput;
 
 #endif
