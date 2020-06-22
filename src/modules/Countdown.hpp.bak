@@ -9,10 +9,10 @@
  */
 class Countdown : public GameModule {
 public:
-    Countdown(TM1637Display display);
-    void setup();
-    void loop();
-    void teardown();
+  Countdown(TM1637Display display);
+  void setup();
+  void loop();
+  void teardown();
 };
 
 #endif

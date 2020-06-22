@@ -27,8 +27,7 @@ public:
   /**
    * Read switch value.
    */
-  boolean readSwitch();
-
+  boolean readSwitch(boolean raw = false);
 };
 
 #endif

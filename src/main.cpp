@@ -7,7 +7,7 @@ Peripherals module;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Booting...");
+  SPI.begin();
   module.setup();
 }
 

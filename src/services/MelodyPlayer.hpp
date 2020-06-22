@@ -3,63 +3,63 @@
 
 #include <Arduino.h>
 
-class MelodyPlayer {
+class MelodyPlayer_ {
 public:
-    /**
-     * Create new player for the specified PIN number.
-     */
-    MelodyPlayer(uint8_t outputPin);
+  /**
+   * Create new player for the specified PIN number.
+   */
+  MelodyPlayer_(uint8_t outputPin);
 
-    /**
-     * Load the given song.
-     */
-    void load(int* song, int length);
+  /**
+   * Load the given song.
+   */
+  void load(int* song, int length);
 
-    /**
-     * Start playback of the loaded song.
-     */
-    void play();
+  /**
+   * Start playback of the loaded song.
+   */
+  void play();
 
-    /**
-     * Stop the current playback. 
-     */
-    void stop();
+  /**
+   * Stop the current playback.
+   */
+  void stop();
 
-    /**
-     * Update output based on playback status.
-     */
-    void update(unsigned long time);
+  /**
+   * Update output based on playback status.
+   */
+  void update(unsigned long time);
 
 private:
-    /**
-     * Buzzer output pin.
-     */
-    uint8_t outputPin_;
+  /**
+   * Buzzer output pin.
+   */
+  uint8_t outputPin_;
 
-    /**
-     * Playback state.
-     */
-    uint8_t playbackState_;
+  /**
+   * Playback state.
+   */
+  uint8_t playbackState_;
 
-    /**
-     * Current song array.
-     */
-    int* song_;
+  /**
+   * Current song array.
+   */
+  int* song_;
 
-    /**
-     * Current song length 
-     */
-    int songLength_ = 0;
+  /**
+   * Current song length
+   */
+  int songLength_ = 0;
 
-    /**
-     * Current song position.
-     */
-    int songPosition_;
+  /**
+   * Current song position.
+   */
+  int songPosition_;
 
-    /**
-     * Time of next scheduled note change.
-     */
-    unsigned long nextUpdate_;
+  /**
+   * Time of next scheduled note change.
+   */
+  unsigned long nextUpdate_;
 };
 
 #endif

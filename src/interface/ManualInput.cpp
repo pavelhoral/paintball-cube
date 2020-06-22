@@ -11,11 +11,18 @@ struct {
   uint8_t lastStable = 0;
 } MeterDebounce;
 
+struct {
+  boolean lastValue;
+} SwitchState;
+
+
 ManualInput_::ManualInput_() {
   pinMode(JACK_PINS[0], INPUT_PULLUP);
   pinMode(JACK_PINS[1], INPUT_PULLUP);
   pinMode(JACK_PINS[2], INPUT_PULLUP);
+
   pinMode(SWITCH_PIN, INPUT_PULLUP);
+  SwitchState.lastValue = digitalRead(SWITCH_PIN) == LOW;
 }
 
 uint8_t ManualInput_::readJacks() {
@@ -43,6 +50,9 @@ uint8_t ManualInput_::readMeter() {
   return MeterDebounce.stableValue;
 }
 
-boolean ManualInput_::readSwitch() {
-  return digitalRead(SWITCH_PIN) == LOW;
+boolean ManualInput_::readSwitch(boolean raw) {
+  boolean value = digitalRead(SWITCH_PIN) == LOW;
+  boolean change = SwitchState.lastValue != value;
+  SwitchState.lastValue = value;
+  return raw ? value : change;
 }
