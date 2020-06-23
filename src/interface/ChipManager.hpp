@@ -14,6 +14,11 @@ public:
   }
 
   /**
+   * Initialize chip reader.
+   */
+  void setup();
+
+  /**
    * Read chip number.
    */
   uint32_t readChip();

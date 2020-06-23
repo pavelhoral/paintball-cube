@@ -15,7 +15,6 @@ struct {
   boolean lastValue;
 } SwitchState;
 
-
 ManualInput_::ManualInput_() {
   pinMode(JACK_PINS[0], INPUT_PULLUP);
   pinMode(JACK_PINS[1], INPUT_PULLUP);

@@ -1,13 +1,13 @@
 #include <Arduino.h>
-#include <SPI.h>
 
 #include "modules/Peripherals.hpp"
+#include "interface/GameFace.hpp"
 
 Peripherals module;
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();
+  GameFace.setup();  
   module.setup();
 }
 
