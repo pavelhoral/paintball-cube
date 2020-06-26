@@ -1,10 +1,10 @@
 #include "ChipManager.hpp"
 
-void ChipManager_::setup() {
+void ChipManager::setup() {
   PCD_Init();
 }
 
-uint32_t ChipManager_::readChip() {
+uint32_t ChipManager::readChip() {
   if (!PICC_IsNewCardPresent() || !PICC_ReadCardSerial()) {
     return 0;
   }

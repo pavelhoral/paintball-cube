@@ -1,13 +1,18 @@
 #include <Arduino.h>
+#include <SPI.h>
+
+#include "context.hpp"
+
+Context context;
 
 #include "modules/Peripherals.hpp"
-#include "interface/GameFace.hpp"
 
-Peripherals module;
+Peripherals module(context);
 
 void setup() {
+  SPI.begin();
   Serial.begin(9600);
-  GameFace.setup();  
+  context.rfid.setup();
   module.setup();
 }
 

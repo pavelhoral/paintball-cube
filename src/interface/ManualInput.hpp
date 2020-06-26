@@ -10,9 +10,9 @@ const uint8_t METER_PIN = A5;
 
 const uint8_t SWITCH_PIN = PIN2;
 
-class ManualInput_ {
+class ManualInput {
 public:
-  ManualInput_();
+  ManualInput();
 
   /**
    * Read jack input state (each value is read as a corresponding bit flag).

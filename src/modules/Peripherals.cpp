@@ -1,18 +1,17 @@
 #include "Peripherals.hpp"
 
-#include "../interface/GameFace.hpp"
 #include "../services/ChipRegistry.hpp"
 
 ChipRegistry_ ChipRegistry;
 
-Peripherals::Peripherals() { }
+Peripherals::Peripherals(Context context) : context_(context) { }
 
 void Peripherals::setup() {
   pinMode(3, OUTPUT);
 }
 
 void Peripherals::loop() {
-  SegmentDisplay.showNumberDec(ManualInput.readSwitch(), true);
+  context_.display.showNumberDec(context_.input.readSwitch(), true);
 
 /*
   uint32_t chipUid = GameFace.ChipManager.readChip();

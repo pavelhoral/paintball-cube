@@ -8,9 +8,9 @@
 const uint8_t MFRC_SS_PIN = 10;
 const uint8_t MFRC_RST_PIN = 8;
 
-class ChipManager_ : public MFRC522 {
+class ChipManager : public MFRC522 {
 public:
-  ChipManager_() : MFRC522(MFRC_SS_PIN, MFRC_RST_PIN) {
+  ChipManager() : MFRC522(MFRC_SS_PIN, MFRC_RST_PIN) {
   }
 
   /**
