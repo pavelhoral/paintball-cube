@@ -3,12 +3,12 @@
 
 #include <Arduino.h>
 
-class MelodyPlayer_ {
+class MelodyPlayer {
 public:
   /**
    * Create new player for the specified PIN number.
    */
-  MelodyPlayer_(uint8_t outputPin);
+  MelodyPlayer(uint8_t outputPin);
 
   /**
    * Load the given song.

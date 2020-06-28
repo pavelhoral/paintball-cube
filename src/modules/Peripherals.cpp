@@ -2,30 +2,43 @@
 
 #include "../services/ChipRegistry.hpp"
 
-ChipRegistry_ ChipRegistry;
+ChipRegistry chipRegistry;
 
 Peripherals::Peripherals(Context context) : context_(context) { }
 
 void Peripherals::setup() {
   pinMode(3, OUTPUT);
+  digitalWrite(3, HIGH);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(9, OUTPUT);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(9, HIGH);
+
+  digitalWrite(3, LOW);
+  delay(100);
+  digitalWrite(3, HIGH);
 }
 
 void Peripherals::loop() {
-  context_.display.showNumberDec(context_.input.readSwitch(), true);
+  uint8_t jacks = context_.input.readJacks();
+  context_.display.showNumberDec(jacks, true);
 
-/*
-  uint32_t chipUid = GameFace.ChipManager.readChip();
+  analogWrite(6, context_.input.readMeter() * 24);
+  analogWrite(5, 255 - context_.input.readMeter() * 24);
+
+  uint32_t chipUid = context_.rfid.readChip();
   if (chipUid != 0) {
     uint8_t value = 0;
-    ChipRegistry.put((byte *) &chipUid, &value);
-    int cardIdx = ChipRegistry.indexOf((byte *) &chipUid);
-    GameFace.SegmentDisplay.showNumberDec(cardIdx);
-    Serial.println("READ");
+    chipRegistry.put((byte *) &chipUid, &value);
+    int cardIdx = chipRegistry.indexOf((byte *) &chipUid);
+    context_.display.showNumberDec(cardIdx);
     digitalWrite(3, LOW);
     delay(100);
     digitalWrite(3, HIGH);
+    delay(200);
   }
-*/
 }
 
 void Peripherals::teardown() {

@@ -5,18 +5,18 @@
  */
 const uint8_t UID_WIDTH = 4;
 
-ChipRegistry_::ChipRegistry_(uint8_t maxCount, uint8_t dataWidth)
+ChipRegistry::ChipRegistry(uint8_t maxCount, uint8_t dataWidth)
   : maxCount_(maxCount), dataWidth_(dataWidth)
 {
   uidArray_ = (uint8_t*) malloc(maxCount_ * UID_WIDTH);
   dataArray_ = (uint8_t*) malloc(maxCount_ * dataWidth_);
 }
 
-void ChipRegistry_::clear() {
+void ChipRegistry::clear() {
   count_ = 0;
 }
 
-void ChipRegistry_::put(byte* uid, byte* value) {
+void ChipRegistry::put(byte* uid, byte* value) {
   if (count_ >= maxCount_) {
     return; // just ignore the call to prevent overflow
   }
@@ -30,12 +30,12 @@ void ChipRegistry_::put(byte* uid, byte* value) {
   }
 }
 
-byte* ChipRegistry_::get(byte* uid) {
+byte* ChipRegistry::get(byte* uid) {
   int index = indexOf(uid);
   return index >= 0 ? dataArray_ + index * dataWidth_ : 0;
 }
 
-int ChipRegistry_::indexOf(byte* uid) {
+int ChipRegistry::indexOf(byte* uid) {
   for (int i = 0; i < count_; i++) {
     int start = i * UID_WIDTH;
     bool match = true;

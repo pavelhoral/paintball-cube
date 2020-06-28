@@ -11,12 +11,12 @@ String toHexUid(byte* uid);
 /**
  * Chip card value registry mapping chip UIDs to arbitrary data.
  */
-class ChipRegistry_ {
+class ChipRegistry {
 public:
   /**
    * Create new chip registry.
    */
-  ChipRegistry_(uint8_t maxCount = 64, uint8_t dataWidth = 1);
+  ChipRegistry(uint8_t maxCount = 64, uint8_t dataWidth = 1);
 
   /**
    * Clear all registered chips.
