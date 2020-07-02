@@ -1,5 +1,8 @@
 #include "ChipManager.hpp"
 
+ChipManager::ChipManager() : MFRC522(MFRC_SS_PIN, MFRC_RST_PIN) {
+}
+
 void ChipManager::setup() {
   PCD_Init();
 }

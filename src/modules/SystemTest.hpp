@@ -1,15 +1,15 @@
-#ifndef PERIPHERALS_H
-#define PERIPHERALS_H
+#ifndef SYSTEMTEST_H
+#define SYSTEMTEST_H
 
 #include "GameModule.hpp"
 #include "../context.hpp"
 
 /**
- * Peripherals tester module.
+ * System test module.
  */
-class Peripherals : public GameModule {
+class SystemTest : public GameModule {
 public:
-  Peripherals(Context context);
+  SystemTest(Context context);
   void setup();
   void loop();
   void teardown();

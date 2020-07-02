@@ -5,9 +5,9 @@
 
 Context context;
 
-#include "modules/Peripherals.hpp"
+#include "modules/SystemTest.hpp"
 
-Peripherals module(context);
+SystemTest module(context);
 
 void setup() {
   SPI.begin();

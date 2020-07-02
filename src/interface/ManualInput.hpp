@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 const uint8_t JACK_PINS[] = { A0, A1, A2 };
+
 const uint8_t JACK_COUNT = 3;
 
 const uint8_t METER_PIN = A5;
@@ -13,6 +14,11 @@ const uint8_t SWITCH_PIN = PIN2;
 class ManualInput {
 public:
   ManualInput();
+
+  /**
+   * Reset any internal and physical state.
+   */
+  void reset();
 
   /**
    * Read jack input state (each value is read as a corresponding bit flag).

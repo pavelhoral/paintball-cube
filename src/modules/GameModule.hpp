@@ -20,7 +20,7 @@ public:
   /**
    * Module teardown that should free memory and reset HW state.
    */
-  virtual void teardown() = 0;
+  void teardown();
 };
 
 #endif

@@ -1,12 +1,12 @@
-#include "Peripherals.hpp"
+#include "SystemTest.hpp"
 
 #include "../services/ChipRegistry.hpp"
 
 ChipRegistry chipRegistry;
 
-Peripherals::Peripherals(Context context) : context_(context) { }
+SystemTest::SystemTest(Context context) : context_(context) { }
 
-void Peripherals::setup() {
+void SystemTest::setup() {
   pinMode(3, OUTPUT);
   digitalWrite(3, HIGH);
   pinMode(5, OUTPUT);
@@ -19,9 +19,11 @@ void Peripherals::setup() {
   digitalWrite(3, LOW);
   delay(100);
   digitalWrite(3, HIGH);
+
+  chipRegistry.clear();
 }
 
-void Peripherals::loop() {
+void SystemTest::loop() {
   uint8_t jacks = context_.input.readJacks();
   context_.display.showNumberDec(jacks, true);
 
@@ -39,8 +41,4 @@ void Peripherals::loop() {
     digitalWrite(3, HIGH);
     delay(200);
   }
-}
-
-void Peripherals::teardown() {
-
 }

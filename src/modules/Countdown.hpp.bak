@@ -12,7 +12,6 @@ public:
   Countdown(TM1637Display display);
   void setup();
   void loop();
-  void teardown();
 };
 
 #endif

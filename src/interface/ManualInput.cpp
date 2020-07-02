@@ -24,6 +24,10 @@ ManualInput::ManualInput() {
   SwitchState.lastValue = digitalRead(SWITCH_PIN) == LOW;
 }
 
+void ManualInput::reset() {
+  readSwitch(); // Drop switch value
+}
+
 uint8_t ManualInput::readJacks() {
   return (digitalRead(JACK_PINS[0]) == LOW)
       | (digitalRead(JACK_PINS[1]) == LOW) << 1
