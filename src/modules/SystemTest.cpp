@@ -9,12 +9,6 @@ SystemTest::SystemTest(Context context) : context_(context) { }
 void SystemTest::setup() {
   pinMode(3, OUTPUT);
   digitalWrite(3, HIGH);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(9, OUTPUT);
-  digitalWrite(5, HIGH);
-  digitalWrite(6, LOW);
-  digitalWrite(9, HIGH);
 
   digitalWrite(3, LOW);
   delay(100);
@@ -24,11 +18,10 @@ void SystemTest::setup() {
 }
 
 void SystemTest::loop() {
-  uint8_t jacks = context_.input.readJacks();
-  context_.display.showNumberDec(jacks, true);
+  context_.display.showNumberDec(context_.input.readMeter(), true);
 
-  analogWrite(6, context_.input.readMeter() * 24);
-  analogWrite(5, 255 - context_.input.readMeter() * 24);
+  uint8_t jacks = context_.input.readJacks();
+  context_.light.setLevels((jacks & 1) * 255, (jacks >> 1 & 1) * 255, (jacks >> 2 & 1) * 255);
 
   uint32_t chipUid = context_.rfid.readChip();
   if (chipUid != 0) {

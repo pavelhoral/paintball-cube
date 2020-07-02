@@ -11,7 +11,18 @@ const uint8_t LIGHT_BLUE_PIN = 9;
 
 class FrontLight {
 public:
-    FrontLight();
+  FrontLight();
+
+  /**
+   * Reset any internal and physical state.
+   */
+  void reset();
+
+  /**
+   * Set light levels to the given values.
+   */
+  void setLevels(uint8_t r, uint8_t g, uint8_t b);
+
 };
 
 #endif
