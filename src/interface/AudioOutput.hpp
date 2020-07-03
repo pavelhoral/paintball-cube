@@ -2,7 +2,6 @@
 #define AUDIOOUTPUT_H
 
 #include <Arduino.h>
-#include <DFRobotDFPlayerMini.h>
 
 const uint8_t BUZZER_PIN = 3;
 
@@ -10,19 +9,35 @@ const uint8_t PLAYER_TX_PIN = 0;
 
 const uint8_t PLAYER_RX_PIN = 1;
 
-class AudioOutput : public DFRobotDFPlayerMini {
+class AudioOutput {
 public:
   AudioOutput();
 
   /**
    * Initialize audio player.
    */
-  void setup();
+  void setup(Stream &stream);
+
+  /**
+   * Play blocking buzzer sound.
+   */
+  void buzz(int length);
 
   /**
    * Reset any internal and physical state.
    */
   void reset();
+
+  /**
+   * Update player status.
+   */
+  void update();
+
+  /**
+   * Play audio file.
+   */
+  void play(uint8_t folder, uint8_t file);
+
 };
 
 #endif

@@ -1,16 +1,5 @@
 #include "ManualInput.hpp"
 
-const int METER_CUTOVER_LOW = 850;
-const int METER_CUTOVER_HIGH = 980;
-
-const int METER_DEBOUNCE_COUNT = 5;
-
-struct {
-  uint8_t stableValue = 0;
-  uint8_t lastValue = 0;
-  uint8_t lastStable = 0;
-} MeterDebounce;
-
 struct {
   boolean lastValue;
 } SwitchState;
@@ -22,6 +11,8 @@ ManualInput::ManualInput() {
 
   pinMode(SWITCH_PIN, INPUT_PULLUP);
   SwitchState.lastValue = digitalRead(SWITCH_PIN) == LOW;
+
+  pinMode(METER_PIN, INPUT);
 }
 
 void ManualInput::reset() {
@@ -34,23 +25,8 @@ uint8_t ManualInput::readJacks() {
       | (digitalRead(JACK_PINS[2]) == LOW) << 2;
 }
 
-uint8_t ManualInput::readMeter() {
-  long value = 1024 - analogRead(METER_PIN);
-  if (value >= METER_CUTOVER_HIGH) {
-    value = map(value, METER_CUTOVER_HIGH, 1024, 75, 100);
-  } else if (value >= METER_CUTOVER_LOW) {
-    value = map(value, METER_CUTOVER_LOW, METER_CUTOVER_HIGH, 45, 75);
-  } else {
-    value = map(value, 0, METER_CUTOVER_LOW, 0, 45);
-  }
-  value = (value + 5) / 10;
-  if (MeterDebounce.lastValue != value) {
-    MeterDebounce.lastValue = value;
-    MeterDebounce.lastStable = 0;
-  } else if (++MeterDebounce.lastStable >= METER_DEBOUNCE_COUNT) {
-    MeterDebounce.stableValue = value;
-  }
-  return MeterDebounce.stableValue;
+int ManualInput::readMeter() {
+  return analogRead(METER_PIN);
 }
 
 boolean ManualInput::readSwitch(boolean raw) {

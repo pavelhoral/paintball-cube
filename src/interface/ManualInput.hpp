@@ -28,7 +28,7 @@ public:
   /**
    * Read potentiometer value in the range [0-10].
    */
-  uint8_t readMeter();
+  int readMeter();
 
   /**
    * Read switch value.

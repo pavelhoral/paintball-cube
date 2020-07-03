@@ -8,11 +8,11 @@
 #include "interface/ChipManager.hpp"
 
 struct Context {
-    ManualInput input;
-    SegmentDisplay display;
-    ChipManager rfid;
-    FrontLight light;
-    AudioOutput audio;
+  ManualInput input;
+  SegmentDisplay display;
+  ChipManager rfid;
+  FrontLight light;
+  AudioOutput audio;
 };
 
 #endif
