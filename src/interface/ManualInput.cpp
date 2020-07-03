@@ -25,8 +25,8 @@ uint8_t ManualInput::readJacks() {
       | (digitalRead(JACK_PINS[2]) == LOW) << 2;
 }
 
-int ManualInput::readMeter() {
-  return analogRead(METER_PIN);
+uint8_t ManualInput::readMeter() {
+  return (analogRead(METER_PIN) - 25) / 100;
 }
 
 boolean ManualInput::readSwitch(boolean raw) {

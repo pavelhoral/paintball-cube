@@ -1,4 +1,4 @@
 #include "GameModule.hpp"
 
-void GameModule::teardown() {
+GameModule::~GameModule() {
 }

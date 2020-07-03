@@ -7,6 +7,8 @@
  */
 class GameModule {
 public:
+  virtual ~GameModule();
+
   /**
    * Standard module setup.
    */
@@ -16,11 +18,6 @@ public:
    * Main loop module logic.
    */
   virtual void loop() = 0;
-
-  /**
-   * Module teardown that should free memory and reset HW state.
-   */
-  void teardown();
 };
 
 #endif

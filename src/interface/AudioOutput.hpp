@@ -21,7 +21,7 @@ public:
   /**
    * Play blocking buzzer sound.
    */
-  void buzz(int length);
+  void buzz(int length, uint8_t count = 1, int pause = 50);
 
   /**
    * Reset any internal and physical state.
