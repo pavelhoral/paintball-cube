@@ -4,6 +4,8 @@
 
 #include "context.hpp"
 
+#include "services/ConfigSignals.hpp"
+
 /**
  * I/O context.
  */ 
@@ -17,6 +19,7 @@ Context context;
 GameModule* module = NULL;
 
 #include "modules/SystemTest.hpp"
+#include "modules/TeamDefense.hpp"
 
 /**
  * Create game module with the given index.
@@ -24,6 +27,7 @@ GameModule* module = NULL;
 GameModule* createModule(uint8_t index) {
   switch (index) {
     case 0: return new SystemTest(context);
+    case 1: return new TeamDefense(context);
     default: return NULL;
   }
 }
@@ -39,9 +43,18 @@ struct CubeConfig {
 CubeConfig config;
 
 /**
+ * Persist configuration.
+ */
+void persist() {
+  ConfigSignals::persist(context);
+  EEPROM.put(SERIAL_OFFSET + 1, config);
+  EEPROM.write(SERIAL_OFFSET, SERIAL_MAGIC);
+}
+
+/**
  * Select module with the specified index.
  */ 
-boolean selectModule(uint8_t index) {
+boolean selectModule(uint8_t index, boolean save = false) {
   if (module != NULL) {
     delete module;
   }
@@ -55,6 +68,12 @@ boolean selectModule(uint8_t index) {
   if (module == NULL) {
     return false;
   }
+
+  if (save) {
+    config.moduleIndex = index;
+    persist();
+  }
+
   module->setup();
   return true;
 }
@@ -73,11 +92,11 @@ void setup() {
   context.audio.setup(Serial);
 
   if (EEPROM.read(SERIAL_OFFSET) == SERIAL_MAGIC) {
-    EEPROM.get(SERIAL_OFFSET, config);
+    EEPROM.get(SERIAL_OFFSET + 1, config);
   }
 
   if (context.rfid.readChip() == config.masterCard) {
-    context.audio.play(1, 1);
+    ConfigSignals::enter(context);
   } else {
     selectModule(config.moduleIndex);
   }
@@ -89,11 +108,11 @@ void setup() {
 void configure() {
   uint32_t chipId = context.rfid.readChip();
   if (chipId == config.masterCard) {
-    if (selectModule(state.moduleIndex)) {
-      context.audio.buzz(250);
+    if (selectModule(state.moduleIndex, context.input.readJacks() == 2)) {
+      ConfigSignals::confirm(context);
       return; // Exit configuration mode
     } else {
-      context.audio.buzz(100, 2, 50);
+      ConfigSignals::cancel(context);
       state.moduleIndex = 0;
     }
   }
@@ -106,7 +125,6 @@ void configure() {
   }
   state.moduleIndex = state.moduleIndex - (state.moduleIndex % 10) + context.input.readMeter();
   context.display.showNumberDec(state.moduleIndex);
-
 }
 
 /**

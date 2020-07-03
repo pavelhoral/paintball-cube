@@ -12,7 +12,6 @@ public:
   SystemTest(Context context);
   void setup();
   void loop();
-  void teardown();
 private:
   Context context_;
 };

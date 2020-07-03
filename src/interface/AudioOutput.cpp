@@ -12,9 +12,7 @@ AudioOutput::AudioOutput() {
 }
 
 void AudioOutput::setup(Stream &stream) {
-  if (!player.begin(stream)) {
-    buzz(5, 5, 70);
-  }
+  player.begin(stream);
   player.volume(DEFAULT_VOLUME);
 }
 
