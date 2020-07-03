@@ -23,6 +23,12 @@ void SystemTest::loop() {
   uint8_t jacks = context_.input.readJacks();
   context_.light.setLevels((jacks & 1) * 255, (jacks >> 1 & 1) * 255, (jacks >> 2 & 1) * 255);
 
+  if (context_.input.readSwitch()) {
+    //context_.audio.volume(30);
+    //context_.audio.play(1);
+  }
+  //context_.audio.available();
+
   uint32_t chipUid = context_.rfid.readChip();
   if (chipUid != 0) {
     uint8_t value = 0;

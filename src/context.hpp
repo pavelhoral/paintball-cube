@@ -4,6 +4,7 @@
 #include "interface/SegmentDisplay.hpp"
 #include "interface/FrontLight.hpp"
 #include "interface/ManualInput.hpp"
+#include "interface/AudioOutput.hpp"
 #include "interface/ChipManager.hpp"
 
 struct Context {
@@ -11,6 +12,7 @@ struct Context {
     SegmentDisplay display;
     ChipManager rfid;
     FrontLight light;
+    AudioOutput audio;
 };
 
 #endif

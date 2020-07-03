@@ -12,6 +12,7 @@ SystemTest module(context);
 void setup() {
   SPI.begin();
   Serial.begin(9600);
+  context.audio.setup();
   context.rfid.setup();
   module.setup();
 }
