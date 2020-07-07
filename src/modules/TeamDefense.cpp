@@ -21,24 +21,46 @@ void TeamDefense::setup() {
 }
 
 void TeamDefense::loop() {
+  uint32_t chipId = context_.rfid.readChip();
+  if (chipId == context_.config.masterCard) {
+    configMode_ = !configMode_;
+  }
+  if (configMode_) {
+    handleConfig();
+  } else {
+    handleGame();
+  }
+}
+
+void TeamDefense::handleConfig() {
+  uint8_t minutes = context_.input.readMeter() + 1;
+  config_.timeLimit = minutes * 60;
+  activeTeam_ = 0;
+  context_.light.setLevels(0, 0, 255);
+  displayTime(context_, config_.timeLimit);
+}
+
+void TeamDefense::handleGame() {
   unsigned long currentTime = millis();
 
   uint8_t currentTeam = readTeam(context_);
-  if (currentTeam != activeTeam_) {
-    activeTeam_ = currentTeam;
-    startTime_ = currentTime;
-  }
-
-  if (activeTeam_ == 0) {
+  if (currentTeam == 0 && activeTeam_ == 0) {
     context_.light.setLevels(0, 255, 0);
     displayTime(context_, config_.timeLimit);
     return;
-  } else {
-    context_.light.setLevels(255, 0, 0);
   }
 
+  if (currentTeam != activeTeam_) {
+    if (currentTeam != 0 || stopDebounce_++ > 3) {
+      stopDebounce_ = 0;
+      activeTeam_ = currentTeam;
+      startTime_ = currentTime;
+    }
+  }
+  
   int remaining = config_.timeLimit - (currentTime - startTime_) / 1000;
   if (remaining > 0) {
+    context_.light.setLevels(255, 0, 0);
     displayTime(context_, remaining);
   }
 

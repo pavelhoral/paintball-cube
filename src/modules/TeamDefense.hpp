@@ -22,8 +22,12 @@ public:
 private:
   Context context_;
   ModuleConfig config_;
+  boolean configMode_ = 0;
   uint8_t activeTeam_ = 0;
+  uint8_t stopDebounce_;
   unsigned long startTime_ = -1;
+  void handleGame();
+  void handleConfig();
 };
 
 #endif
