@@ -35,19 +35,12 @@ GameModule* createModule(uint8_t index) {
 #define SERIAL_MAGIC 58
 #define SERIAL_OFFSET 4
 
-struct CubeConfig {
-  uint32_t masterCard = 3002390521;
-  uint8_t moduleIndex = 0;
-};
-
-CubeConfig config;
-
 /**
  * Persist configuration.
  */
 void persist() {
   ConfigSignals::persist(context);
-  EEPROM.put(SERIAL_OFFSET + 1, config);
+  EEPROM.put(SERIAL_OFFSET + 1, context.config);
   EEPROM.write(SERIAL_OFFSET, SERIAL_MAGIC);
 }
 
@@ -70,7 +63,7 @@ boolean selectModule(uint8_t index, boolean save = false) {
   }
 
   if (save) {
-    config.moduleIndex = index;
+    context.config.moduleIndex = index;
     persist();
   }
 
@@ -92,13 +85,13 @@ void setup() {
   context.audio.setup(Serial);
 
   if (EEPROM.read(SERIAL_OFFSET) == SERIAL_MAGIC) {
-    EEPROM.get(SERIAL_OFFSET + 1, config);
+    EEPROM.get(SERIAL_OFFSET + 1, context.config);
   }
 
-  if (context.rfid.readChip() == config.masterCard) {
+  if (context.rfid.readChip() == context.config.masterCard) {
     ConfigSignals::enter(context);
   } else {
-    selectModule(config.moduleIndex);
+    selectModule(context.config.moduleIndex);
   }
 }
 
@@ -107,7 +100,7 @@ void setup() {
  */
 void configure() {
   uint32_t chipId = context.rfid.readChip();
-  if (chipId == config.masterCard) {
+  if (chipId == context.config.masterCard) {
     if (selectModule(state.moduleIndex, context.input.readJacks() == 2)) {
       ConfigSignals::confirm(context);
       return; // Exit configuration mode
