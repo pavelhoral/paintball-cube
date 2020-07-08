@@ -4,7 +4,7 @@
 #include "GameModule.hpp"
 #include "../context.hpp"
 
-struct ModuleConfig {
+struct TeamDefenseConfig {
   // Time limit in seconds
   uint16_t timeLimit = 300;
 };
@@ -21,7 +21,7 @@ public:
   void loop();
 private:
   Context context_;
-  ModuleConfig config_;
+  TeamDefenseConfig config_;
   boolean configMode_ = 0;
   uint8_t activeTeam_ = 0;
   uint8_t stopDebounce_;

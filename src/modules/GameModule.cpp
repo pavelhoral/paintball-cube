@@ -2,3 +2,6 @@
 
 GameModule::~GameModule() {
 }
+
+void GameModule::setup() {
+}

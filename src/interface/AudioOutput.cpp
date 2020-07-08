@@ -39,6 +39,7 @@ void AudioOutput::update() {
   }
 }
 
-void AudioOutput::play(uint8_t folder, uint8_t file) {
+void AudioOutput::play(uint8_t folder, uint8_t file, uint8_t volume) {
+  player.volume(volume);
   player.playFolder(folder, file);
 }

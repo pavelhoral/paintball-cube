@@ -10,7 +10,7 @@
 MelodyPlayer::MelodyPlayer(uint8_t outputPin) : outputPin_(outputPin) {
 }
 
-void MelodyPlayer::load(int* song, int length) {
+void MelodyPlayer::load(const int* song, int length) {
   song_ = song; // Use reference only
   songLength_ = length;
   songPosition_ = 0;

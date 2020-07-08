@@ -12,7 +12,7 @@ public:
   /**
    * Standard module setup.
    */
-  virtual void setup() = 0;
+  virtual void setup();
 
   /**
    * Main loop module logic.

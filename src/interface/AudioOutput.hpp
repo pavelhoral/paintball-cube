@@ -36,7 +36,7 @@ public:
   /**
    * Play audio file.
    */
-  void play(uint8_t folder, uint8_t file);
+  void play(uint8_t folder, uint8_t file, uint8_t volume = 30);
 
 };
 

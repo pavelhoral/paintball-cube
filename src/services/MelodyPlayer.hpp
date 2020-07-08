@@ -13,7 +13,7 @@ public:
   /**
    * Load the given song.
    */
-  void load(int* song, int length);
+  void load(const int* song, int length);
 
   /**
    * Start playback of the loaded song.
