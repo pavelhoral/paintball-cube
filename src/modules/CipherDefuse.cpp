@@ -180,7 +180,6 @@ void CipherDefuse::handleHint1() {
 }
 
 void CipherDefuse::handleHint2() {
-  // druhy jack: barvy jako morseovka - cisla, ktera je nutne zadat pro dalsi level
   if (stateChange_ || context_.input.readSwitch()) {
     uint8_t dash = 0b01001001;
     context_.display.setSegments(&dash, 1, 2);
@@ -218,8 +217,38 @@ void CipherDefuse::handleHint2() {
   }
 }
 
+const uint8_t HINT3_CODE[] = { 6, 4, 9, 2, 3, 1, 8 };
+
 void CipherDefuse::handleHint3() {
-// treti jack: potenciometr jako trezor
+  if (hintState_ & 4) {
+    context_.light.setLevels(0, 255, 0);
+    context_.display.showNumberDec(7);
+    melodyPlayer_.update(millis());
+    return;
+  }
+  if (stateChange_) {
+    context_.light.setLevels(255, 0, 0);
+  }
+  uint8_t value = context_.input.readMeter();
+  uint8_t digit = scaleDigit(value);
+  context_.display.setSegments(&digit, 1, 3);
+
+  boolean clockwise = codePosition_ % 2 == 1;
+  uint8_t target = HINT3_CODE[codePosition_];
+
+  if (value == target) {
+    context_.audio.buzz(25);
+    codePosition_++;
+  } else if ((clockwise && lastValue_ < value) || (!clockwise && lastValue_ > value)) { 
+    context_.audio.buzz(50);
+    codePosition_ = 0;
+  } else {
+    context_.audio.buzz(5);
+  }
+  if (codePosition_ >= 7) {
+    context_.audio.play(WINNER_SOUND);
+    hintState_ |= 4;
+  }
 }
 
 void CipherDefuse::handleWinner() {

@@ -28,6 +28,8 @@ private:
   unsigned long errorTimer_ = 0;
   unsigned long morseStart_ = 0;
   uint8_t lastPosition_ = 0;
+  uint8_t lastValue_ = -1;
+  uint8_t codePosition_ = 0;
 };
 
 #endif

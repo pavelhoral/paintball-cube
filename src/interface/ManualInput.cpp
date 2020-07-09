@@ -26,7 +26,15 @@ uint8_t ManualInput::readJacks() {
 }
 
 uint8_t ManualInput::readMeter() {
-  return (analogRead(METER_PIN) - 25) / 100;
+  int rawValue = analogRead(METER_PIN) - 25;
+  uint8_t result = rawValue / 100;
+  if ((rawValue % 100 < 10) || (rawValue % 100) > 90) {
+    if (abs(lastMeter_ - result) <= 1) {
+      return lastMeter_;
+    }
+  }
+  lastMeter_ = result;
+  return result;
 }
 
 boolean ManualInput::readSwitch(boolean raw) {

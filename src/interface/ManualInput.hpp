@@ -34,6 +34,8 @@ public:
    * Read switch value.
    */
   boolean readSwitch(boolean raw = false);
+private:
+  uint8_t lastMeter_ = 0;
 };
 
 #endif
