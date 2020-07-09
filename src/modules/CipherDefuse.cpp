@@ -28,16 +28,32 @@ const int SCALE_MELODY[] = {
 uint8_t scalePosition(uint8_t value) {
   // 7 4 0 8 1 9 6 2
   switch (value) {
-    case 0: return 3;
+    case 0: return 0;
     case 1: return 5;
     case 2: return 8;
-    case 3: return 0;
+    case 3: return 6;
     case 4: return 2;
-    case 5: return 0;
+    case 5: return 3;
     case 6: return 7;
     case 7: return 1;
     case 8: return 4;
-    case 9: return 6;
+    case 9: return 0;
+  }
+  return 0;
+}
+
+uint8_t scaleDigit(uint8_t value) {
+  switch (value) {
+    case 0: return 0b00001000;
+    case 1: return 0b00010000;
+    case 2: return 0b00100000;
+    case 3: return 0b00000001;
+    case 4: return 0b00000010;
+    case 5: return 0b00000100;
+    case 6: return 0b00001000;
+    case 7: return 0b00010000;
+    case 8: return 0b00100000;
+    case 9: return 0b00000001;
   }
   return 0;
 }
@@ -60,7 +76,7 @@ void CipherDefuse::loop() {
   }
 
   if (activeState_ != STATE_WINNER) {
-    stateChange_ = activeState_ != activeJack;
+    stateChange_ = activeState_ != activeJack || activeState_ == 255;
     activeState_ = activeJack;
   }
 
@@ -100,9 +116,6 @@ void CipherDefuse::handleDefuse() {
   if (millis() - errorTimer_ > 1000) {
     errorTimer_ = millis();
     context_.audio.buzz(5);
-  }
-  if (hintState_ != 7) {
-    return;
   }
   boolean enter = context_.input.readSwitch();
   if (enter) {    
@@ -144,7 +157,9 @@ void CipherDefuse::handleHint1() {
   }
   melodyPlayer_.update(millis());
   uint8_t input = context_.input.readMeter();
-  context_.display.showNumberDec(input, true);
+  uint8_t digit = scaleDigit(input);
+  uint8_t segments[] = { digit, digit, digit, digit };
+  context_.display.setSegments(segments, 4);
   if (!context_.input.readSwitch()) {
     return; // no-input
   }
@@ -165,7 +180,42 @@ void CipherDefuse::handleHint1() {
 }
 
 void CipherDefuse::handleHint2() {
-// druhy jack: barvy jako morseovka - cisla, ktera je nutne zadat pro dalsi level
+  // druhy jack: barvy jako morseovka - cisla, ktera je nutne zadat pro dalsi level
+  if (stateChange_ || context_.input.readSwitch()) {
+    uint8_t dash = 0b01001001;
+    context_.display.setSegments(&dash, 1, 2);
+    morseStart_ = millis();
+    lastPosition_ = -1;
+  }
+  const String code = "/ - . - . / - / . . / . - . / . . / /";
+  uint8_t position = (millis() - morseStart_) / 250;
+  if (position > 37) {
+    context_.light.reset();
+    return;
+  } else if (position == 0) {
+    context_.audio.buzz(100);
+    delay(250);
+  } else if (position == 37) {
+    context_.audio.buzz(200);
+  }
+  if (lastPosition_ != position) {
+    lastPosition_ = position;
+    context_.audio.buzz(10);
+    switch (code[position]) {
+      case '/':
+        context_.light.setLevels(255, 0, 0);
+        break;
+      case '.':
+        context_.light.setLevels(0, 255, 0);
+        break;
+      case '-':
+        context_.light.setLevels(0, 0, 255);
+        break;
+      case ' ':
+        context_.light.setLevels(0, 0, 0);
+        break;
+    }
+  }
 }
 
 void CipherDefuse::handleHint3() {

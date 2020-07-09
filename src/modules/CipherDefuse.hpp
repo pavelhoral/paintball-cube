@@ -19,13 +19,15 @@ public:
   void handleWinner();
 private:
   Context context_;
-  uint8_t activeState_;
+  uint8_t activeState_ = 255;
   boolean stateChange_;
   uint8_t hintState_ = 0;
   uint16_t defuseCode_ = 0;
   MelodyPlayer melodyPlayer_ = MelodyPlayer(BUZZER_PIN);
   uint8_t melodyDecode_ = 0;
   unsigned long errorTimer_ = 0;
+  unsigned long morseStart_ = 0;
+  uint8_t lastPosition_ = 0;
 };
 
 #endif
