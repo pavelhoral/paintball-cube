@@ -21,6 +21,7 @@ GameModule* module = NULL;
 #include "modules/SystemTest.hpp"
 #include "modules/TeamDefense.hpp"
 #include "modules/CipherDefuse.hpp"
+#include "modules/GuessNumber.hpp"
 
 /**
  * Create game module with the given index.
@@ -30,6 +31,7 @@ GameModule* createModule(uint8_t index) {
     case 0: return new SystemTest(context);
     case 1: return new TeamDefense(context);
     case 2: return new CipherDefuse(context);
+    case 3: return new GuessNumber(context);
     default: return NULL;
   }
 }
