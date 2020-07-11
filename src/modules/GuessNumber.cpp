@@ -17,8 +17,10 @@ void GuessNumber::setup() {
   activeState_ = STATE_GAME;
   currentNumber_ = 0;
   EEPROM.get(SERIAL_OFFSET + 1, targetNumber_);
+  if (targetNumber_ < 99 || targetNumber_ > 999) {
+    targetNumber_ = 999;
+  }
 }
-
 
 void GuessNumber::loop() {
   if (activeState_ == STATE_WINNER) {
@@ -42,7 +44,7 @@ void GuessNumber::loop() {
   }
   uint8_t digit = context_.input.readMeter();
   currentNumber_ = currentNumber_ - (currentNumber_ % 10) + digit;
-  if (context_.rfid.readChip() == context_.config.masterCard) {
+  if (context_.rfid.readChip() == context_.config.masterCard && context_.input.readJacks() > 0) {
     targetNumber_ = currentNumber_;
     currentNumber_ = 0;
     ConfigSignals::persist(context_);
