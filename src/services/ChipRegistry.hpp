@@ -1,5 +1,5 @@
-#ifndef CHIPREGISTRY_H
-#define CHIPREGISTRY_H
+#ifndef CHIPREGISTRY_HPP
+#define CHIPREGISTRY_HPP
 
 #include <Arduino.h>
 

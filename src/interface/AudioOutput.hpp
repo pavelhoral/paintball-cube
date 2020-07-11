@@ -1,5 +1,5 @@
-#ifndef AUDIOOUTPUT_H
-#define AUDIOOUTPUT_H
+#ifndef AUDIOOUTPUT_HPP
+#define AUDIOOUTPUT_HPP
 
 #include <Arduino.h>
 

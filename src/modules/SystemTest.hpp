@@ -1,5 +1,5 @@
-#ifndef SYSTEMTEST_H
-#define SYSTEMTEST_H
+#ifndef SYSTEMTEST_HPP
+#define SYSTEMTEST_HPP
 
 #include "GameModule.hpp"
 #include "../context.hpp"

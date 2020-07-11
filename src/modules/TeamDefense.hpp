@@ -1,5 +1,5 @@
-#ifndef TEAMDEFENSE_H
-#define TEAMDEFENSE_H
+#ifndef TEAMDEFENSE_HPP
+#define TEAMDEFENSE_HPP
 
 #include "GameModule.hpp"
 #include "../context.hpp"

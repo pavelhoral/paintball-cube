@@ -1,5 +1,5 @@
-#ifndef MELODYPLAYER_H
-#define MELODYPLAYER_H
+#ifndef MELODYPLAYER_HPP
+#define MELODYPLAYER_HPP
 
 #include <Arduino.h>
 
@@ -44,7 +44,7 @@ private:
   /**
    * Current song array.
    */
-  int* song_;
+  const int* song_;
 
   /**
    * Current song length

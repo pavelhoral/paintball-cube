@@ -1,5 +1,5 @@
-#ifndef FRONTLIGHT_H
-#define FRONTLIGHT_H
+#ifndef FRONTLIGHT_HPP
+#define FRONTLIGHT_HPP
 
 #include <Arduino.h>
 

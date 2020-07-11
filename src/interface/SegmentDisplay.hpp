@@ -1,5 +1,5 @@
-#ifndef SEGMENTDISPLAY_H
-#define SEGMENTDISPLAY_H
+#ifndef SEGMENTDISPLAY_HPP
+#define SEGMENTDISPLAY_HPP
 
 #include <Arduino.h>
 #include <TM1637Display.h>

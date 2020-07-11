@@ -1,5 +1,5 @@
-#ifndef MANUALINPUT_H
-#define MANUALINPUT_H
+#ifndef MANUALINPUT_HPP
+#define MANUALINPUT_HPP
 
 #include <Arduino.h>
 

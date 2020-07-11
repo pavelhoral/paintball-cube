@@ -1,5 +1,5 @@
-#ifndef CHIPMANAGER_H
-#define CHIPMANAGER_H
+#ifndef CHIPMANAGER_HPP
+#define CHIPMANAGER_HPP
 
 #include <Arduino.h>
 #include <MFRC522.h>

@@ -1,5 +1,5 @@
-#ifndef GAMEMODULE_H
-#define GAMEMODULE_H
+#ifndef GAMEMODULE_HPP
+#define GAMEMODULE_HPP
 
 /**
  * Common parent class for all game modules.
