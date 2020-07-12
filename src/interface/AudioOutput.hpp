@@ -38,6 +38,11 @@ public:
    */
   void play(uint8_t folder, uint8_t file, uint8_t volume = 30);
 
+  /**
+   * Stop any audio file.
+   */
+  void stop();
+
 };
 
 #endif

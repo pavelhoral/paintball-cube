@@ -33,6 +33,7 @@ GameModule* createModule(uint8_t index) {
     case 1: return new TeamDefense(context);
     case 2: return new CipherDefuse(context);
     case 3: return new GuessNumber(context);
+    case 4: return new KeepTalking(context);
     default: return NULL;
   }
 }
