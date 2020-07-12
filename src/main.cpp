@@ -22,6 +22,7 @@ GameModule* module = NULL;
 #include "modules/TeamDefense.hpp"
 #include "modules/CipherDefuse.hpp"
 #include "modules/GuessNumber.hpp"
+#include "modules/KeepTalking.hpp"
 
 /**
  * Create game module with the given index.
