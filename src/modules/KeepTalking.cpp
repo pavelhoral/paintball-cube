@@ -150,7 +150,7 @@ void KeepTalking::handleGame04() {
   // - STATE: LED blika zelena, modra, modra
   // - INTERACTION: na zasunuti konektoru ukaze symbol
   // - ANSWER: podle symbolu je nutne zadat cislo
-  const uint8_t LIGHT_SIGNAL[] = { 0b00000100, 0b00000001, 0b00000001 };
+  const uint8_t LIGHT_SIGNAL[] = { 0b00000010, 0b00000001, 0b00000001 };
 
   const uint8_t jacks = context_.input.readJacks();
   if (jacks != lastJacks_) {
